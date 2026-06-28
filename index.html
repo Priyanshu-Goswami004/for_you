@@ -513,6 +513,7 @@ body{
 <!-- ================= AUTO PLAY MUSIC ================= -->
 
 <audio id="bgMusic" loop autoplay muted>
+  <!-- अगर ऑडियो न चले, तो नीचे दिए गए रास्ते को अपनी फाइल के मुताबिक ठीक करें, जैसे सिर्फ "bb.mp3" -->
   <source src="/webs/bb.mp3" type="audio/mpeg">
 </audio>
 
@@ -1019,35 +1020,21 @@ function fireworks(){
 
 /* ================= AUTO MUSIC ================= */
 
-const music=document.getElementById('bgMusic');
+const music = document.getElementById('bgMusic');
+music.volume = 0.5;
 
-music.volume=0.5;
+function startMusic() {
+  music.muted = false;
+  music.play().then(() => {
+    document.removeEventListener('click', startMusic);
+    document.removeEventListener('touchstart', startMusic);
+  }).catch(err => {
+    console.log("Playback रोका गया:", err);
+  });
+}
 
-window.addEventListener('load',()=>{
-
-  const playPromise=music.play();
-
-  if(playPromise!==undefined){
-
-    playPromise.then(()=>{
-
-      music.muted=false;
-
-    }).catch(()=>{
-
-      document.addEventListener('click',()=>{
-
-        music.muted=false;
-
-        music.play();
-
-      },{once:true});
-
-    });
-
-  }
-
-});
+document.addEventListener('click', startMusic);
+document.addEventListener('touchstart', startMusic);
 
 </script>
 
