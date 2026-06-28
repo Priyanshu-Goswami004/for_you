@@ -1,0 +1,1138 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Luxury Proposal</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&family=Cinzel:wght@400;600&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#000;
+  color:#f5e6d0;
+  font-family:'Playfair Display',serif;
+  overflow-x:hidden;
+}
+
+@media(pointer:fine){
+  body{
+    cursor:none;
+  }
+}
+
+/* ================= CURSOR ================= */
+
+#cursor{
+  position:fixed;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:radial-gradient(circle,#c9a84c,transparent);
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+}
+
+#cursor-trail{
+  position:fixed;
+  width:8px;
+  height:8px;
+  border:1px solid #c9a84c;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9998;
+  transform:translate(-50%,-50%);
+  opacity:.5;
+}
+
+/* ================= BACKGROUND ================= */
+
+#bgCanvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:.08;
+  pointer-events:none;
+  z-index:1;
+  animation:float 20s linear infinite;
+}
+
+@keyframes float{
+  0%{transform:translate(0,0);}
+  50%{transform:translate(30px,-20px);}
+  100%{transform:translate(0,0);}
+}
+
+/* ================= LOADER ================= */
+
+#loader{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+  transition:1s;
+}
+
+.loader-ring{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:2px solid transparent;
+  border-top:2px solid #c9a84c;
+  animation:spin 1.5s linear infinite;
+  position:relative;
+}
+
+.loader-ring::after{
+  content:'♥';
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:#c9a84c;
+  font-size:2rem;
+}
+
+.loader-text{
+  margin-top:2rem;
+  font-family:'Cinzel',serif;
+  letter-spacing:.4em;
+  font-size:.7rem;
+  color:#c9a84c;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* ================= SECTION ================= */
+
+.section{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:4rem 2rem;
+  opacity:0;
+  transform:translateY(50px);
+  transition:1s;
+}
+
+.section.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ================= HERO ================= */
+
+#hero{
+  background:radial-gradient(circle at center,#1a0520 0%,#000 70%);
+  text-align:center;
+}
+
+.hero-tag{
+  font-family:'Cinzel',serif;
+  letter-spacing:.5em;
+  color:#c9a84c;
+  font-size:.7rem;
+  margin-bottom:2rem;
+}
+
+.hero-main{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(4rem,12vw,9rem);
+  text-shadow:0 0 80px rgba(201,168,76,.4);
+}
+
+.hero-sub{
+  margin-top:1rem;
+  font-family:'Cinzel',serif;
+  letter-spacing:.4em;
+  color:#c9a84c;
+  font-size:.8rem;
+}
+
+.hero-date{
+  margin-top:2rem;
+  opacity:.5;
+  letter-spacing:.2em;
+}
+
+/* ================= DIVIDER ================= */
+
+.divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:1rem;
+  padding:2rem;
+  z-index:2;
+  position:relative;
+}
+
+.div-line{
+  width:120px;
+  height:1px;
+  background:linear-gradient(to right,transparent,#c9a84c);
+}
+
+.div-line.r{
+  background:linear-gradient(to left,transparent,#c9a84c);
+}
+
+.div-diamond{
+  width:10px;
+  height:10px;
+  background:#c9a84c;
+  transform:rotate(45deg);
+}
+
+/* ================= TITLES ================= */
+
+.sec-eyebrow{
+  font-family:'Cinzel',serif;
+  font-size:.7rem;
+  color:#c9a84c;
+  letter-spacing:.4em;
+  margin-bottom:1rem;
+}
+
+.sec-title{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(3rem,7vw,5rem);
+  text-align:center;
+  margin-bottom:3rem;
+}
+
+/* ================= LETTER ================= */
+
+#letter-sec{
+  background:linear-gradient(180deg,#000,#100315,#000);
+}
+
+.letter-container{
+  max-width:750px;
+  width:100%;
+}
+
+.letter-frame{
+  border:1px solid rgba(201,168,76,.2);
+  padding:3rem;
+  position:relative;
+  background:rgba(201,168,76,.03);
+}
+
+.letter-frame::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:40px;
+  height:40px;
+  border-top:2px solid #c9a84c;
+  border-left:2px solid #c9a84c;
+}
+
+.letter-frame::after{
+  content:'';
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:40px;
+  height:40px;
+  border-bottom:2px solid #c9a84c;
+  border-right:2px solid #c9a84c;
+}
+
+.letter-drop{
+  float:left;
+  font-size:5rem;
+  line-height:.8;
+  margin-right:.2rem;
+  color:#c9a84c;
+  font-family:'Great Vibes',cursive;
+}
+
+.letter-body{
+  line-height:2;
+  font-style:italic;
+  color:#e8d5c0;
+}
+
+.gold-word{
+  color:#c9a84c;
+}
+
+.letter-sig{
+  margin-top:2rem;
+  text-align:right;
+  font-family:'Great Vibes',cursive;
+  font-size:2rem;
+  color:#c9a84c;
+}
+
+/* ================= PHOTOS ================= */
+
+#photos-sec{
+  background:linear-gradient(180deg,#000,#07010d,#000);
+}
+
+.photos-intro{
+  max-width:600px;
+  text-align:center;
+  line-height:2;
+  opacity:.7;
+  margin-bottom:3rem;
+}
+
+.upload-grid{
+  width:100%;
+  max-width:900px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+}
+
+.photo-slot{
+  aspect-ratio:3/4;
+  border:1px solid rgba(201,168,76,.2);
+  position:relative;
+  overflow:hidden;
+  background:#0b0510;
+  transition:.4s;
+}
+
+.photo-slot:hover{
+  transform:scale(1.03);
+  border-color:#c9a84c;
+}
+
+.slot-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.slot-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.7),transparent);
+}
+
+.slot-number{
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:5;
+  color:#c9a84c;
+  font-size:.8rem;
+  letter-spacing:.2em;
+}
+
+.slot-caption{
+  position:absolute;
+  bottom:15px;
+  left:15px;
+  z-index:5;
+  color:#fff;
+  font-size:.9rem;
+  text-shadow:0 0 10px #000;
+}
+
+/* ================= TIMELINE ================= */
+
+.timeline{
+  max-width:700px;
+  width:100%;
+  position:relative;
+}
+
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#c9a84c;
+}
+
+.tl-item{
+  display:flex;
+  margin-bottom:3rem;
+  position:relative;
+}
+
+.tl-content{
+  width:calc(50% - 2rem);
+  padding:1.5rem;
+  border:1px solid rgba(201,168,76,.15);
+  background:rgba(201,168,76,.03);
+}
+
+.tl-item:nth-child(odd) .tl-content{
+  margin-right:auto;
+}
+
+.tl-item:nth-child(even){
+  flex-direction:row-reverse;
+}
+
+.tl-item:nth-child(even) .tl-content{
+  margin-left:auto;
+}
+
+.tl-dot{
+  position:absolute;
+  left:50%;
+  top:1rem;
+  transform:translateX(-50%);
+  width:12px;
+  height:12px;
+  background:#c9a84c;
+  border-radius:50%;
+}
+
+.tl-year{
+  color:#c9a84c;
+  margin-bottom:.5rem;
+  font-family:'Cinzel',serif;
+  font-size:.7rem;
+}
+
+.tl-event{
+  line-height:1.7;
+}
+
+/* ================= QUESTION ================= */
+
+#question-sec{
+  background:radial-gradient(circle,#1a0520 0%,#000 70%);
+  text-align:center;
+}
+
+.q-main{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(4rem,10vw,8rem);
+  text-shadow:0 0 90px rgba(201,168,76,.5);
+}
+
+.q-hearts{
+  margin:1.5rem 0;
+  color:#c9a84c;
+  font-size:2rem;
+}
+
+.yes-btn{
+  margin-top:2rem;
+  padding:1rem 3rem;
+  border:1px solid #c9a84c;
+  background:transparent;
+  color:#c9a84c;
+  font-family:'Cinzel',serif;
+  letter-spacing:.3em;
+  cursor:pointer;
+  transition:.4s;
+}
+
+.yes-btn:hover{
+  background:#c9a84c20;
+  transform:scale(1.05);
+}
+
+#yes-reveal{
+  display:none;
+  margin-top:3rem;
+}
+
+#yes-reveal.show{
+  display:block;
+}
+
+.yes-title-big{
+  font-family:'Great Vibes',cursive;
+  font-size:5rem;
+  color:#c9a84c;
+}
+
+/* ================= FOOTER ================= */
+
+#footer{
+  min-height:auto;
+  padding:4rem 2rem;
+  text-align:center;
+  border-top:1px solid rgba(201,168,76,.1);
+}
+
+.footer-quote{
+  font-family:'Great Vibes',cursive;
+  font-size:2rem;
+  color:#c9a84c90;
+}
+
+/* ================= PARTICLES ================= */
+
+.particle{
+  position:fixed;
+  pointer-events:none;
+  z-index:1;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateY(-10vh) rotate(0deg);
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+  .upload-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .timeline::before{
+    left:20px;
+  }
+
+  .tl-item,
+  .tl-item:nth-child(even){
+    flex-direction:column;
+  }
+
+  .tl-content{
+    width:calc(100% - 3rem);
+    margin-left:3rem !important;
+  }
+
+  .tl-dot{
+    left:20px;
+  }
+
+  .letter-frame{
+    padding:2rem;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<!-- ================= AUTO PLAY MUSIC ================= -->
+
+<audio id="bgMusic" loop autoplay muted>
+  <source src="/home/priyanshu/Downloads/webs/Jan_Anderson_-_Night_Changes_Piano_Cover_(mp3.pm).mp3" type="audio/mpeg">
+</audio>
+
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<canvas id="bgCanvas"></canvas>
+
+<div id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">
+    Preparing Something Beautiful...
+  </div>
+</div>
+
+<div class="orb"
+style="width:500px;height:500px;background:#8b2252;top:10%;left:10%;">
+</div>
+
+<div class="orb"
+style="width:400px;height:400px;background:#c9a84c;bottom:10%;right:10%;">
+</div>
+
+<!-- HERO -->
+
+<section id="hero" class="section visible"
+style="opacity:1;transform:none;">
+
+  <div class="hero-tag">
+    A LOVE STORY UNLIKE ANY OTHER
+  </div>
+
+  <div class="hero-main">
+    My Love,<br>
+    My Forever
+  </div>
+
+  <div class="hero-sub">
+    ✦ THE GREATEST CHAPTER BEGINS ✦
+  </div>
+
+  <div class="hero-date">
+    Est. The day I found you
+  </div>
+
+</section>
+
+<div class="divider">
+  <div class="div-line"></div>
+  <div class="div-diamond"></div>
+  <div class="div-line r"></div>
+</div>
+
+<!-- LETTER -->
+
+<section id="letter-sec" class="section">
+
+  <div class="sec-eyebrow">
+    FROM MY HEART TO YOURS
+  </div>
+
+  <div class="sec-title">
+    A Letter Written In Love
+  </div>
+
+  <div class="letter-container">
+
+    <div class="letter-frame">
+
+      <div class="letter-body">
+
+        <p>
+          <span class="letter-drop">M</span>
+          y darling, from the moment you entered my life,
+          everything changed.
+          Every ordinary moment became extraordinary.
+        </p>
+
+        <p>
+          I fell in love with your smile,
+          your silence,
+          your beautiful soul.
+        </p>
+
+        <p>
+          Every memory with you is a treasure
+          I hold close to my heart forever.
+        </p>
+
+        <p>
+          Today I ask you —
+          <span class="gold-word">
+            will you stay with me forever?
+          </span>
+        </p>
+
+      </div>
+
+      <div class="letter-sig">
+        Always Yours ♥
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<div class="divider">
+  <div class="div-line"></div>
+  <div class="div-diamond"></div>
+  <div class="div-line r"></div>
+</div>
+
+<!-- PHOTOS -->
+
+<section id="photos-sec" class="section">
+
+  <div class="sec-eyebrow">
+    OUR MEMORIES
+  </div>
+
+  <div class="sec-title">
+    Moments I'll Never Forget
+  </div>
+
+  <div class="photos-intro">
+    Every photo is a memory wrapped in love.
+  </div>
+
+  <div class="upload-grid" id="photoGrid"></div>
+
+</section>
+
+<div class="divider">
+  <div class="div-line"></div>
+  <div class="div-diamond"></div>
+  <div class="div-line r"></div>
+</div>
+
+<!-- TIMELINE -->
+
+<section id="timeline-sec" class="section">
+
+  <div class="sec-eyebrow">
+    THE STORY OF US
+  </div>
+
+  <div class="sec-title">
+    Every Chapter Of Our Love
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-content">
+        <div class="tl-year">Chapter One</div>
+        <div class="tl-event">
+          The day our eyes met for the first time.
+        </div>
+      </div>
+      <div class="tl-dot"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-content">
+        <div class="tl-year">Chapter Two</div>
+        <div class="tl-event">
+          Endless conversations and beautiful nights.
+        </div>
+      </div>
+      <div class="tl-dot"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-content">
+        <div class="tl-year">Chapter Three</div>
+        <div class="tl-event">
+          The moment I realised you are my forever.
+        </div>
+      </div>
+      <div class="tl-dot"></div>
+    </div>
+
+  </div>
+
+</section>
+
+<div class="divider">
+  <div class="div-line"></div>
+  <div class="div-diamond"></div>
+  <div class="div-line r"></div>
+</div>
+
+<!-- QUESTION -->
+
+<section id="question-sec" class="section">
+
+  <div class="q-main">
+    Will You Marry Me?
+  </div>
+
+  <div class="q-hearts">
+    ♥ ♥ ♥
+  </div>
+
+  <div id="yes-area">
+    <button class="yes-btn" onclick="sayYes()">
+      YES, WITH ALL MY HEART
+    </button>
+  </div>
+
+  <div id="yes-reveal">
+
+    <div class="yes-title-big">
+      She Said Yes!
+    </div>
+
+    <p style="margin-top:1rem;">
+      Today our forever begins...
+    </p>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<section id="footer">
+
+  <div class="footer-quote">
+    "In all the world, there is no heart for me like yours."
+  </div>
+
+</section>
+
+<script>
+
+/* ================= LOADER ================= */
+
+window.addEventListener('load',()=>{
+
+  setTimeout(()=>{
+
+    const loader=document.getElementById('loader');
+
+    loader.style.opacity='0';
+
+    setTimeout(()=>{
+      loader.style.display='none';
+    },1000);
+
+  },1800);
+
+});
+
+/* ================= CURSOR ================= */
+
+const cursor=document.getElementById('cursor');
+const trail=document.getElementById('cursor-trail');
+
+let mx=0,my=0,tx=0,ty=0;
+
+document.addEventListener('mousemove',e=>{
+
+  mx=e.clientX;
+  my=e.clientY;
+
+  cursor.style.left=mx+'px';
+  cursor.style.top=my+'px';
+
+});
+
+setInterval(()=>{
+
+  tx+=(mx-tx)*0.15;
+  ty+=(my-ty)*0.15;
+
+  trail.style.left=tx+'px';
+  trail.style.top=ty+'px';
+
+},16);
+
+/* ================= STAR BACKGROUND ================= */
+
+const canvas=document.getElementById('bgCanvas');
+const ctx=canvas.getContext('2d');
+
+let w,h,stars=[];
+
+function initStars(){
+
+  w=canvas.width=window.innerWidth;
+  h=canvas.height=window.innerHeight;
+
+  stars=[];
+
+  for(let i=0;i<200;i++){
+
+    stars.push({
+      x:Math.random()*w,
+      y:Math.random()*h,
+      r:Math.random()*1.5,
+      a:Math.random(),
+      speed:Math.random()*0.2
+    });
+
+  }
+
+}
+
+function drawStars(){
+
+  ctx.clearRect(0,0,w,h);
+
+  stars.forEach(s=>{
+
+    s.y+=s.speed;
+
+    if(s.y>h){
+      s.y=0;
+    }
+
+    ctx.beginPath();
+
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+
+    ctx.fillStyle=`rgba(255,255,255,${s.a})`;
+
+    ctx.fill();
+
+  });
+
+  requestAnimationFrame(drawStars);
+
+}
+
+window.addEventListener('resize',initStars);
+
+initStars();
+drawStars();
+
+
+
+
+
+
+
+/* ================= FIXED PHOTOS ================= */
+
+const photos=[
+
+  {
+    img:'/home/priyanshu/Downloads/webs/IMG_20230930_124652_940.jpg',
+    caption:'For First Time Late'
+  },
+
+  {
+    img:'/home/priyanshu/Downloads/webs/IMG_20241018_215445.jpg',
+    caption:'A Beautiful Date'
+  },
+
+  {
+    img:'/home/priyanshu/Downloads/webs/IMG_20250303_094053.jpg',
+    caption:'Just Us Two'
+  },
+
+  {
+    img:'/home/priyanshu/Downloads/webs/IMG_20260105_160935.jpg',
+    caption:'Laughing Together'
+  },
+
+  {
+    img:'/home/priyanshu/Downloads/webs/Snapchat-849731595.jpg',
+    caption:'My Favourite Smile'
+  },
+
+  {
+    img:'/home/priyanshu/Downloads/webs/Snapchat-1178851445.jpg',
+    caption:'Forever Begins'
+  }
+
+];
+
+const grid=document.getElementById('photoGrid');
+
+photos.forEach((photo,i)=>{
+
+  const slot=document.createElement('div');
+
+  slot.className='photo-slot';
+
+  slot.innerHTML=`
+
+    <img
+      class="slot-img"
+      src="${photo.img}"
+      alt="memory-photo"
+    >
+
+    <div class="slot-overlay"></div>
+
+    <div class="slot-number">
+      ${String(i+1).padStart(2,'0')}
+    </div>
+
+    <div class="slot-caption">
+      ${photo.caption}
+    </div>
+
+  `;
+
+  grid.appendChild(slot);
+
+});
+
+/* ================= REVEAL ================= */
+
+const sections=document.querySelectorAll('.section');
+
+const observer=new IntersectionObserver(entries=>{
+
+  entries.forEach(entry=>{
+
+    if(entry.isIntersecting){
+
+      entry.target.classList.add('visible');
+
+    }
+
+  });
+
+},{
+  threshold:.2
+});
+
+sections.forEach(sec=>{
+  observer.observe(sec);
+});
+
+/* ================= PETALS ================= */
+
+const petals=['✿','❀','✾','❁'];
+
+function createPetal(){
+
+  const p=document.createElement('div');
+
+  p.className='particle';
+
+  p.textContent=
+  petals[Math.floor(Math.random()*petals.length)];
+
+  p.style.left=Math.random()*100+'vw';
+
+  p.style.fontSize=
+  (Math.random()*12+10)+'px';
+
+  p.style.color=
+  ['#c9a84c','#8b2252','#f5e6d0']
+  [Math.floor(Math.random()*3)];
+
+  p.style.animationDuration=
+  (Math.random()*6+6)+'s';
+
+  document.body.appendChild(p);
+
+  setTimeout(()=>{
+    p.remove();
+  },12000);
+
+}
+
+setInterval(createPetal,600);
+
+/* ================= YES BUTTON ================= */
+
+function sayYes(){
+
+  document.getElementById('yes-area').style.display='none';
+
+  document.getElementById('yes-reveal').classList.add('show');
+
+  fireworks();
+
+}
+
+function fireworks(){
+
+  for(let i=0;i<80;i++){
+
+    const fw=document.createElement('div');
+
+    fw.textContent=
+    ['✨','💛','♥','🌹']
+    [Math.floor(Math.random()*4)];
+
+    fw.style.position='fixed';
+
+    fw.style.left=Math.random()*100+'vw';
+
+    fw.style.top=Math.random()*100+'vh';
+
+    fw.style.fontSize=
+    (Math.random()*20+16)+'px';
+
+    fw.style.pointerEvents='none';
+
+    fw.style.zIndex='9999';
+
+    fw.style.transition='1.5s';
+
+    document.body.appendChild(fw);
+
+    setTimeout(()=>{
+
+      fw.style.transform=
+      `translate(
+      ${(Math.random()*200-100)}px,
+      ${(Math.random()*200-100)}px
+      ) scale(0)`;
+
+      fw.style.opacity='0';
+
+    },10);
+
+    setTimeout(()=>{
+      fw.remove();
+    },1500);
+
+  }
+
+}
+```js id="l8h2pt"
+/* ================= AUTO MUSIC ================= */
+
+const music=document.getElementById('bgMusic');
+
+music.volume=0.5;
+
+window.addEventListener('load',()=>{
+
+  const playPromise=music.play();
+
+  if(playPromise!==undefined){
+
+    playPromise.then(()=>{
+
+      music.muted=false;
+
+    }).catch(()=>{
+
+      document.addEventListener('click',()=>{
+
+        music.muted=false;
+
+        music.play();
+
+      },{once:true});
+
+    });
+
+  }
+
+});
+```
+
+
+</script>
+
+</body>
+</html>
+```
