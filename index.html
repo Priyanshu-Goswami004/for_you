@@ -510,11 +510,10 @@ body{
 </head>
 
 <body>
-<!-- ================= AUTO PLAY MUSIC ================= -->
+<!-- ================= AUTO PLAY MUSIC (ONLINE LINK ADDED) ================= -->
 
 <audio id="bgMusic" loop autoplay muted>
-  <!-- अगर ऑडियो न चले, तो नीचे दिए गए रास्ते को अपनी फाइल के मुताबिक ठीक करें, जैसे सिर्फ "bb.mp3" -->
-  <source src="/bb.mp3" type="audio/mpeg">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
 
@@ -1029,7 +1028,7 @@ function startMusic() {
     document.removeEventListener('click', startMusic);
     document.removeEventListener('touchstart', startMusic);
   }).catch(err => {
-    console.log("Playback रोका गया:", err);
+    console.log("Playback error:", err);
   });
 }
 
